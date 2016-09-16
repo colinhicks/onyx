@@ -1,4 +1,4 @@
-(defproject org.onyxplatform/onyx "0.9.10-beta4"
+(defproject org.onyxplatform/onyx "0.9.10"
   :description "Distributed, masterless, high performance, fault tolerant data processing for Clojure"
   :url "https://github.com/onyx-platform/onyx"
   :license {:name "Eclipse Public License"
@@ -33,7 +33,7 @@
                  [prismatic/schema "1.0.5"]
                  [log4j/log4j "1.2.17"]
                  [clj-tuple "0.2.2"]
-                 [clj-fuzzy "0.3.1" :exclusions [org.clojure/clojurescript]]]
+                 [clj-fuzzy "0.3.3"]]
   :jvm-opts ["-Xmx4g" "-XX:-OmitStackTraceInFastThrow"]
   :profiles {:dev {:dependencies [[org.clojure/tools.nrepl "0.2.11"]
                                   [table "0.5.0"]
@@ -48,6 +48,7 @@
                    :resource-paths ["test-resources/"]}
              :circle-ci {:global-vars {*warn-on-reflection* true}
                          :jvm-opts ["-Xmx2500M"
+                                    "-Daeron.client.liveness.timeout=50000000000"
                                     "-XX:+UnlockCommercialFeatures"
                                     "-XX:+FlightRecorder"
                                     "-XX:StartFlightRecording=duration=1080s,filename=recording.jfr"]}
@@ -58,6 +59,11 @@
   :unison
   {:repos
    [{:git "git@onyx-kafka:onyx-platform/onyx-kafka.git"
+     :branch "compatibility"
+     :release-branch "master"
+     :release-script "scripts/release.sh"
+     :merge "master"}
+    {:git "git@onyx-peer-http-query:onyx-platform/onyx-peer-http-query.git"
      :branch "compatibility"
      :release-branch "master"
      :release-script "scripts/release.sh"
